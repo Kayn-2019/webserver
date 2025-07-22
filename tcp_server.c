@@ -48,18 +48,15 @@ struct Listener* listener_init(unsigned short port)
     }
     listener->lfd = lfd;
     listener->port = port;
-    Debug("lintennet_init");
     return listener;
 }
 
 int accept_connection(void* arg)
 {
-    Debug("accept_connection_begin");
     struct TcpServer* server = (struct TcpServer*)arg;
     int fd = accept(server->listener->lfd, NULL, NULL);
     struct EventLoop* event_loop = take_woker_event_loop(server->thread_pool);
     tcp_connection_init(fd, event_loop);
-    Debug("accept_connection_end");
     return 0;
 }
 
@@ -67,7 +64,6 @@ void tcp_server_Run(struct TcpServer* server)
 {
     Debug("The server application has been launched.");
     thread_pool_run(server->thread_pool);
-    Debug("listener fd:%d", server->listener->lfd);
     struct Channel* channel = channel_init(server->listener->lfd, ReadEvent, accept_connection, NULL, NULL, server);
     event_loop_add_task(server->main_loop, channel, ADD);
     event_loop_run(server->main_loop);

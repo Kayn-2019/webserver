@@ -22,7 +22,6 @@ void thread_pool_run(struct ThreadPool* pool)
         worker_thread_init(&pool->worker_threads[i], pool->index);
         worker_thread_run(&pool->worker_threads[i]);
     }
-    Debug("The thread pool has been launched.");
 }
 
 struct EventLoop* take_woker_event_loop(struct ThreadPool* pool)

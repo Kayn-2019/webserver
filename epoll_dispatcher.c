@@ -66,7 +66,6 @@ static int epoll_control(struct Channel* channel, struct EventLoop* event_loop, 
 
 static int epoll_add(struct Channel* channel, struct EventLoop* event_loop)
 {
-    Debug("epoll_add fd:%d", channel->fd);
     int ret = epoll_control(channel, event_loop, EPOLL_CTL_ADD);
     if (ret == -1)
     {
